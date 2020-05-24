@@ -1,0 +1,2 @@
+babaShop
+react redux mongoDB
