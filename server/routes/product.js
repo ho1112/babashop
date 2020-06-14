@@ -36,5 +36,16 @@ router.post('/', (req, res) => {
   })
 })
 
+//Landing page(top)
+router.post('/products', (req, res) => {
+  // product collection에 들어있는 모든 상품정보 가져오기
+  Product.find()   //Product 모델로 mongo DB의 Product를 전부 가져온다
+    .populate("writer") //.populate()로 writer(상품을 업로드한 ID)와 관련된 모든 정보를 가져온다
+    .exec((err, productInfo) => {
+      if(err) return res.status(400).json( {success: false, err} )
+      return res.status(200).json( {success: true, productInfo } )
+    })
+})
+
 
 module.exports = router;
