@@ -41,8 +41,17 @@ router.post('/products', (req, res) => {
   // product collection에 들어있는 모든 상품정보 가져오기
   let limit = req.body.limit ? parseInt(req.body.limit) : 20;
   let skip = req.body.skip ? parseInt(req.body.skip) : 0;
+  //filter
+  let findArgs = {};
+  for(let key in req.body.filters) {
+    if(req.body.filters[key].length > 0) { //key -> continents, price
+      console.log(req.body.filters[key])
+      findArgs[key] = req.body.filters[key]
+    }
+  }
 
-  Product.find()   //Product 모델로 mongo DB의 Product를 전부 가져온다
+
+  Product.find(findArgs)   //Product 모델로 mongo DB의 Product를 전부 가져온다
     .populate("writer") //.populate()로 writer(상품을 업로드한 ID)와 관련된 모든 정보를 가져온다
     .skip(skip) //몇번부터 가져올 것인지 skip~ limit만큼
     .limit(limit) //가져올 갯수
