@@ -45,11 +45,20 @@ router.post('/products', (req, res) => {
   let findArgs = {};
   for(let key in req.body.filters) {
     if(req.body.filters[key].length > 0) { //key -> continents, price
-      console.log(req.body.filters[key])
-      findArgs[key] = req.body.filters[key]
+      console.log('key',key)
+      if(key === "price") {
+        findArgs[key] = {
+          $gte: req.body.filters[key][0], //Greater than equal 크거나 같고
+          $lte: req.body.filters[key][1]  //Less than equal 작거나 같은
+          //ex) [200,249] $gte:200, $lte:249 -> 200~249
+        }
+        console.log("in price if", findArgs)
+      } else {
+        findArgs[key] = req.body.filters[key]
+      }
     }
   }
-
+  console.log('findArgs', findArgs)
 
   Product.find(findArgs)   //Product 모델로 mongo DB의 Product를 전부 가져온다
     .populate("writer") //.populate()로 writer(상품을 업로드한 ID)와 관련된 모든 정보를 가져온다

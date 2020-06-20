@@ -5,7 +5,8 @@ import { Icon, Col, Card, Row, Carousel } from 'antd'
 import Meta from 'antd/lib/card/Meta';
 import ImageSlider from '../../utils/ImageSlider'
 import Checkbox from './Sections/CheckBox'
-import { continents } from './Sections/Data' //checkBox item model
+import Radiobox from './Sections/RadioBox'
+import { continents, price } from './Sections/Data' //checkBox item model
 
 
 function LandingPage() {
@@ -69,7 +70,7 @@ function LandingPage() {
             </Card>
         </Col>
     })
-    const showFilteredResults = (filters) => {
+    const showFilteredResults = (filters) => { //DB에 filters값을 전달해 해당하는 상품을 가져온다
         let body = {
             skip: 0, //filter이기 때문에 0으로 초기화
             limit: Limit,
@@ -78,10 +79,27 @@ function LandingPage() {
         getProducts(body)
         setSkip(0)
     }
+
+    const handlePrice = (value) => {
+        const data = price; //Data.js
+        let array = [];
+        for(let key in data) {
+            if(data[key]._id === parseInt(value, 10)) {
+                array = data[key].array; //선택한 라디오 객체의"array"(Data.js)를 let array에 넣어준다 
+            }
+        }
+        return array;
+    }
+
     const handleFilters = (filters, category) => {
         const newFilters = {...Filters} //현재 필터값 ex) { continents: [2], price: [3,4] }
         newFilters[category] = filters //새로 들어온 필터값[]을 해당 카테고리[]로 대체한다.
+        if(category === "price") {
+            let priceValues = handlePrice(filters)
+            newFilters[category] = priceValues
+        }
         showFilteredResults(newFilters)
+        setFilters(newFilters) //새로운 검색조건을 useState에 넣어준다.
     }
 
 
@@ -92,9 +110,16 @@ function LandingPage() {
             </div>
             {/* filter */}
 
-            {/* checkBox //continents -> Data.js(checkBox item model)*/}
-            <Checkbox list={continents} handleFilters={filters => handleFilters(filters, "continents") } /> 
-            {/* radio */}
+            <Row gutter={[16,16]}>
+                <Col lg={12} xs={24}>
+                    {/* checkBox //continents -> Data.js(checkBox item model)*/}
+                    <Checkbox list={continents} handleFilters={filters => handleFilters(filters, "continents") } /> 
+                </Col>
+                <Col lg={12} xs={24}>
+                    {/* radio */}
+                    <Radiobox list={price} handleFilters={filters => handleFilters(filters, "price") }/>
+                </Col>
+            </Row>
 
 
             {/* search */}
