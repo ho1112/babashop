@@ -6,6 +6,7 @@ import Meta from 'antd/lib/card/Meta';
 import ImageSlider from '../../utils/ImageSlider'
 import Checkbox from './Sections/CheckBox'
 import Radiobox from './Sections/RadioBox'
+import SearchFeature from './Sections/SearchFeature'
 import { continents, price } from './Sections/Data' //checkBox item model
 
 
@@ -19,6 +20,7 @@ function LandingPage() {
         continents: [],
         price: []
     })
+    const [SearchTerm, setSearchTerm] = useState("")
 
     useEffect(() => {
         let body = {
@@ -102,6 +104,19 @@ function LandingPage() {
         setFilters(newFilters) //새로운 검색조건을 useState에 넣어준다.
     }
 
+    //검색기능 - SearchFeature.js에서 받아온 값을 useState에 갱신
+    const updateSearchTerm = (newSearchTerm) => { //newSearchTerm(SearchFeature.js에서 보낸 event.target.value)
+        let body = {
+            skip: 0, //검색이기 때문에 0으로 초기화
+            limit: Limit,
+            filters: Filters, //현재 useState값(체크,라디오)
+            searchTerm: newSearchTerm
+        }
+        setSkip(0)
+        setSearchTerm(newSearchTerm)
+        getProducts(body)
+    }
+
 
     return (
         <div style={{ width: '75%', margin: '3rem auto'}}>
@@ -123,7 +138,11 @@ function LandingPage() {
 
 
             {/* search */}
-
+            <div style={{ display:'flex', justifyContent: 'flex-end', margin: '1rem auto'}}>
+                <SearchFeature 
+                    refreshFunction={updateSearchTerm}
+                />
+            </div>
             {/* cards */}
             <Row>
                 {renderCards}

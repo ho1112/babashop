@@ -36,6 +36,16 @@ const ProductSchema = mongoose.Schema({
     }
 }, { timestamps: true} ) //update time auto set
 
+ProductSchema.index({ //검색 mongoDB .find() 검색대상, 가중치 설정
+    title:'text',
+    description:'text'
+}, {
+    weights:{
+        title: 5,
+        description: 1 //명시하지 않으면 default 1이 들어간다
+    }
+})
+
 const Product = mongoose.model('Product', ProductSchema);
 
 module.exports = { Product }
