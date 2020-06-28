@@ -38,6 +38,7 @@ router.post('/', (req, res) => {
 
 //Landing page(top)
 router.post('/products', (req, res) => {
+  console.log('top top ')
   // product collection에 들어있는 모든 상품정보 가져오기
   let limit = req.body.limit ? parseInt(req.body.limit) : 20;
   let skip = req.body.skip ? parseInt(req.body.skip) : 0;
@@ -88,7 +89,18 @@ router.post('/products', (req, res) => {
         })
       })
   }
+})
 
+router.get('/products_by_id', (req, res) => {
+  let type = req.query.type
+  let productId = req.query.id
+  //productId를 이용해 DB에서 productId와 같은 상품을 가져온다.
+  Product.find({ _id: productId })
+      .populate('writer')
+      .exec((err, product) => {
+        if(err) return res.status(400).send(err)
+        return res.status(200).send({ success: true, product})
+      })
 })
 
 
