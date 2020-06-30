@@ -21,7 +21,7 @@ const Continents = [
 ];
 
 function UploadProductPage(props) {
-//userState
+//useState
   const [ Title, setTitle ] = useState("")
   const [ Description, setDescription ] = useState("")
   const [ Price, setPrice ] = useState(0)
