@@ -97,13 +97,22 @@ router.post('/products', (req, res) => {
 
 router.get('/products_by_id', (req, res) => {
   let type = req.query.type
-  let productId = req.query.id
+  let productIds = req.query.id
+console.log('router'+productIds)
+  if(type === "array") {
+    //ex) id=5e995643,7fv8d6f8g,48vtd6ee4 -> productIds =['5e995643','7fv8d6f8g','48vtd6ee4']변경
+    let ids = req.query.id.split(',');
+    productIds = ids.map(item => {
+      return item;
+    })
+  }
+
   //productId를 이용해 DB에서 productId와 같은 상품을 가져온다.
-  Product.find({ _id: productId })
+  Product.find({ _id: { $in: productIds} }) //복수의 상품이 들어올 수 있기 때문에 $in
       .populate('writer')
       .exec((err, product) => {
         if(err) return res.status(400).send(err)
-        return res.status(200).send({ success: true, product})
+        return res.status(200).json({ success: true, product })
       })
 })
 

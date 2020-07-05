@@ -1,11 +1,34 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { getCartItems } from '../../../_actions/user_actions';
+import UserCardBlock from './Sctions/UserCardBlock';
 
-function CartPage() {
+function CartPage(props) {
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+
+    let cartItems = []
+    //리덕스 user state의 cart 안에 상품이 들어있는지 확인
+    if(props.user.userData && props.user.userData.cart) {
+      if(props.user.userData.cart.length > 0) {
+        props.user.userData.cart.forEach(item => {
+          cartItems.push(item.id) //리덕스의 user.UserData.cart 아이템ID를 배열에 넣어준다.
+        })
+        dispatch(getCartItems(cartItems, props.user.userData.cart))
+      }
+    }
+  }, [props.user.userData])
+
   return (
-    <div>
-      cartPage
+    <div style={{ width: '85%', margin: '3rem auto' }}>
+      <h1>My Cart</h1>
+      <div>
+        <UserCardBlock products={props.user.cartDetail && props.user.cartDetail.product} />
+      </div>
     </div>
-  );
+  )
 }
 
 export default CartPage;
