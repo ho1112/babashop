@@ -19,4 +19,4 @@ const PaymentSchema = mongoose.Schema({
 
 const Payment = mongoose.model('Payment', PaymentSchema);
 
-module.exports = { Product }
+module.exports = { Payment }
