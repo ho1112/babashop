@@ -11,8 +11,8 @@ function ProductImage(props) {
 
             props.detail.images.map(item => { //images배열에 가져온 image경로를 넣어준다
                 images.push({
-                    original: `http://localhost:5000/${item}`,
-                    thumbnail: `http://localhost:5000/${item}`
+                    original: `${item}`,
+                    thumbnail: `${item}`
                 })
             })
             setImages(images);

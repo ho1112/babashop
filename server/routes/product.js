@@ -3,9 +3,15 @@ const router = express.Router();
 const multer = require('multer');
 const { Product } = require('../models/Product')
 
+//const { storage } = require('../config/firebaseConfig')
+
+const { bucket } = require('../config/firebaseConfig')
+let async = require('async');
+
 //=================================
 //             Product
 //=================================
+/*
 const storage = multer.diskStorage({
     destination: function (req, file, cb) { //save file path
       console.log("2");
@@ -29,15 +35,119 @@ router.post('/image', (req, res) => {
         return res.json({success: true, filePath: res.req.file.path, fileName: res.req.file.filename}) //file info send
     })
 })
+*/
+
+
+
+async function saveImage(file, contents) {
+  const config = {
+    action: 'read',
+    expires: '03-01-2500'
+  };
+  const promises = [];
+  let url = "";
+  console.log("1 saveImage");
+  await file.save(contents);
+  console.log("2 file.save")
+  url = await Promise.all(await file.getSignedUrl(config) );
+  console.log("3 "+url)
+  promises.push(url)
+  console.log("4 .push")
+}
+
+async function upload() {
+    //const url = await getDownloadURL(file);
+    console.log("upload " )
+    //return url;
+}
+
+async function getDownloadURL(file) {
+  let params = {
+    action: 'read',
+    expires: '03-01-2500'
+  }
+  return file.getSignedUrl(params);
+  
+}
+
+async function getFirebase(req) {
+  const now = Date.now();
+  let urlArray = [];
+  const pendingPromises  = [];
+  for(let i = 0; i < req.body.images.length; i++){
+    pendingPromises.push(new Promise((resolve, reject) => {
+      let fileName = 'images/'+now+"_"+req.body.images[i].path;
+      let base64 = req.body.images[i].base64;
+      const file = bucket.file('images/'+now+"_"+req.body.images[i].path);
+      const contents = Buffer.from(base64.replace(/^data:image\/(png|gif|jpeg);base64,/, ''), 'base64');
+      const config = {
+        action: 'read',
+        expires: '03-01-2500'
+      };
+      file.save(contents);
+      console.log("file.save end")
+      resolve( file.getSignedUrl(config) );
+      console.log("file.getsigned end")
+    })); //push
+    console.log("pendingPromises push end"+pendingPromises[0])
+  } //for
+
+  Promise.all(pendingPromises)
+  .then( urls => {
+    console.log("then : "+urls)
+    console.log(urls.length)
+    console.log(urls[0])
+    urls.map( (url, index) => {
+      req.body.images[index] = url;
+    })
+    
+  })
+  .catch(() => console.log('error'))
+  //console.log("urlArray ; "+urlArray)
+  //return urlArray;
+}
 
 //상품 업로드(DB저장)
 router.post('/', (req, res) => {
   //req -> DB
-  const product = new Product(req.body) //리퀘스트바디 정보로 product 모델 객체 생성
-  product.save( (err) => {
-    if(err) return res.status(400).json( {success: false, err} )
-    return res.status(200).json( {success: true} )
+  const now = Date.now();
+  // firebase에 이미지 저장
+  if(req.body.images){
+    let array = new Array;
+    const now = Date.now();
+    let urlArray = [];
+    const pendingPromises  = [];
+    //프론트에서 받은 이미지들을 업로드 한 후, url을 배열에 넣어준다.
+    for(let i = 0; i < req.body.images.length; i++){ 
+      pendingPromises.push(new Promise((resolve, reject) => {
+      let base64 = req.body.images[i].base64;
+      const file = bucket.file('images/'+now+"_"+req.body.images[i].path);
+      const contents = Buffer.from(base64.replace(/^data:image\/(png|gif|jpeg);base64,/, ''), 'base64');
+      const config = {
+        action: 'read',
+        expires: '03-01-2500'
+      };
+      file.save(contents); //파일 업로드
+      resolve( file.getSignedUrl(config) ); //업로드 된 파일의 다운로드url취득
+      })); //push
+    } //for
+
+    Promise.all(pendingPromises)
+    .then( urls => {
+      urls.map( (url, index) => {
+      req.body.images[index] = url;
+    })
+      product = new Product(req.body) //리퀘스트바디 정보로 product 모델 객체 생성
+      product.save( (err) => {
+        if(err) return res.status(400).json( {success: false, err} )
+        return res.status(200).json( {success: true} )
+      })
   })
+  .catch(() => console.log('error'))
+
+  }else{
+    if(err) return res.status(400).json( {success: false, err} )
+  }
 })
 
 //Landing page(top)

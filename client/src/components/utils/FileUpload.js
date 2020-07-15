@@ -10,8 +10,33 @@ import axios from 'axios';
 function FileUpload(props) {
     const [Images, setImages] = useState([]);
 
-    //multer Definition
+    const [imageBase64, setImageBase64] = useState([]); // 파일 base64 미리보기 파일 url
+
+    //multer Definition (X)
     const dropHandler = (files) => {
+    //새로운 이미지 미리보기 처리
+    let reader = new FileReader();
+    reader.onloadend = () => {
+      // 2. 읽기가 완료되면 reander에서 base64을 읽어 state에 넣어준다.
+      const base64 = reader.result;
+      if (base64) {
+
+        console.log(files)
+
+        files[0].base64 = base64.toString();
+        //setImageBase64([...imageBase64, base64.toString()]); // 파일 base64 상태 업데이트
+        setImages([...Images, files[0]]); // 파일 상태 업데이트
+        props.refreshFunction([...Images, files[0] ]) //UploadProductPage update state 부모페이지 state에 전달
+        console.log(files[0])
+      }
+    }
+    
+    if (files[0]) {
+      reader.readAsDataURL(files[0]); // 1. 파일을 읽어 버퍼에 저장.
+    }
+
+        // 기존방식 (multer업로드 후 로컬주소 삽입방식)
+        /*
         let formData = new FormData();
         const config = {
             header: {'content-type': 'multipart/form-data'} //multer type == multipart/form-data
@@ -27,12 +52,13 @@ function FileUpload(props) {
                     alert('Failed to save file.');
                 }
             })
-
+    */
     }
 
     //image delete
     const deleteHandler = (image) => {
         const currentIndex = Images.indexOf(image)
+        console.log(currentIndex)
         let newImages = [...Images]
         newImages.splice(currentIndex, 1) // delete 1 item
         setImages(newImages) //request update state
@@ -59,7 +85,9 @@ function FileUpload(props) {
                         //preview zone
                         <div onClick={()=> deleteHandler(image)} key={index}>
                             <img style={{minWidth: '300px', width: '300px', height: '240px'}}
-                                src={`http://localhost:5000/${image}`} alt='preview'
+                                //src={`http://localhost:5000/${image}`} 
+                                src={`${image.base64}`}
+                                alt='preview'
                             />
                         </div>    
                     ))}

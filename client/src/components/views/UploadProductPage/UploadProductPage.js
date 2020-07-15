@@ -61,6 +61,7 @@ function UploadProductPage(props) {
       continent : Continent,
       images: Images
     }
+    console.log("uploadPage : "+Images[0].size  )
 
     Axios.post("/api/product", body)
         .then(response => {
@@ -69,8 +70,10 @@ function UploadProductPage(props) {
             props.history.push('/') 
           } else {
             alert("failed upload");
+            console.log(response.data.err);
           }
         })
+
   }
 
   return (
