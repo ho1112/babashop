@@ -8,6 +8,8 @@ import Checkbox from './Sections/CheckBox'
 import Radiobox from './Sections/RadioBox'
 import SearchFeature from './Sections/SearchFeature'
 import { continents, price } from './Sections/Data' //checkBox item model
+import { CookiesProvider } from 'react-cookie';
+import PopUpMain from '../PopUpPage/PopUpMain'
 
 
 function LandingPage() {
@@ -153,6 +155,11 @@ function LandingPage() {
                     <button onClick={loadMoreHandler}>더보기</button>
                 </div>
             }
+
+            {/* popUP */}
+            <CookiesProvider>
+                <PopUpMain />
+            </CookiesProvider>  
 
         </div>
     )

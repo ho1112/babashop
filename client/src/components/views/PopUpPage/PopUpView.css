@@ -1,0 +1,159 @@
+
+
+.MdLYR01Box.mdLYR01Cashback {
+    width: 960px;
+    background: #32d478;
+    border: none;
+bottom: 50%;
+    right: 50%;
+    -webkit-transform: translate(50%, 50%);
+    -ms-transform: translate(50%, 50%);
+    transform: translate(50%, 50%);
+
+}
+.MdLYR01Box {
+    z-index: 1000;
+    position: fixed;
+    width: 482px;
+    box-sizing: border-box;
+    background: #fff;
+    border: 1px solid #a6a6a6;
+    box-shadow: 1px 1px rgba(0, 0, 0, 0.04);
+    text-align: center;
+
+}
+
+
+
+.MdLYR01Box {
+    z-index: 1000;
+    position: fixed;
+    width: 482px;
+    box-sizing: border-box;
+    background: #fff;
+    border: 1px solid #a6a6a6;
+    box-shadow: 1px 1px rgba(0, 0, 0, 0.04);
+    text-align: center;
+}
+<!-- -->
+.MdLYR02Body {
+    position: relative;
+
+}
+
+.MdLYR01Box.mdLYR01Cashback .MdLYR02Body .mdLYR02Close {
+    top: -10;
+    right: 0;
+    padding: 8px;
+}
+
+.MdLYR02Body .mdLYR02Close {
+    z-index: 11;
+    position: absolute;
+}
+
+.MdLYR01Box.mdLYR01Cashback .MdBtnClose01 {
+    background: url(https://previews.123rf.com/images/asmati/asmati1706/asmati170606477/80933641-letter-x-sign-design-template-element-vector-white-icon-with-soft-shadow-on-transparent-background-.jpg)no-repeat;
+    width: 30px;
+    height: 30px;
+display: inline-block;
+overflow: hidden;
+text-indent: -9999px;
+
+}
+
+.MdLYR01Box.mdLYR01Cashback .MdLYR18Cashback.mdLYR18TypeImg {
+    padding-top: 0;
+
+}
+.MdNonDisp {
+    display: none!important;
+
+}
+
+.MdLYR01Box.mdLYR01Cashback .mdLYR18Copy01 {
+    display: inline-block;
+    padding: 4px 8px;
+    margin-top: 9px;
+    border-radius: 4px;
+    color: #32d478;
+    font-size: 22px;
+    font-weight: bold;
+    line-height: 22px;
+    background-color: #fff;
+margin: 0;
+}
+
+.MdLYR01Box.mdLYR01Cashback .mdLYR18Txt01:before {
+    position: absolute;
+    top: -198px;
+    content: " ";
+    display: block;
+    width: 290px;
+    height: 222px;
+    margin: 0 auto;
+    background: url(https://img1.daumcdn.net/thumb/R1280x0.fjpg/?fname=http://t1.daumcdn.net/brunch/service/user/7mo5/image/hnrF2AUkNdFW_yGAA76a8oLKlU8.jpg)50% 0 no-repeat;
+    background-size: 290px 222px;
+right: 50%;
+transform: translateX(50%);
+}
+
+.MdLYR01Box.mdLYR01Cashback .mdLYR18Desc01 {
+    margin-top: 6px;
+    color: #fff;
+    font-size: 11px;
+}
+
+.MdLYR01Box.mdLYR01Cashback .mdLYR18Txt01 {
+    padding: 0 14px 8px 0;
+    margin-top: 224px;
+    position: relative;
+    text-align: right;
+}
+
+.MdLYR01Box.mdLYR01Cashback .mdLYR18Txt01 label {
+    color: rgba(255, 255, 255, 0.9);
+
+}
+
+.MdLYR01Box.mdLYR01Cashback .mdLYR18Txt01 .mdLYR18Check01 {
+    position: relative;
+    display: inline-block;
+    width: 11px;
+    height: 11px;
+    margin-right: 5px;
+}
+
+.MdLYR01Box.mdLYR01Cashback .mdLYR18Btn {
+    background-color: rgba(0, 0, 0, 0.2);
+
+}
+
+.MdLYR01Box.mdLYR01Cashback .mdLYR18Btn a {
+color: #fff;
+    font-size: 20px;
+    font-weight: bold;
+    line-height: 26px;
+    width: 100%;
+    height: 60px;
+text-decoration: none;
+
+-webkit-box-pack: center;
+    -moz-box-pack: center;
+    -ms-flex-pack: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+
+-webkit-box-align: center; 
+    -moz-box-align: center;
+    -ms-flex-align: center;
+    /* -webkit-align-items: center; */
+    align-items: center;
+
+    display: flex;
+}
+
+div {
+    margin: 0;
+    padding: 0;
+}
