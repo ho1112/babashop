@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Typography, Button, Form, Input } from 'antd'; 
+import { Typography, Button, Form, Input, InputNumber  } from 'antd'; 
 import FileUpload from '../../utils/FileUpload';
 import Axios from 'axios';
 
@@ -25,6 +25,7 @@ function UploadProductPage(props) {
   const [ Title, setTitle ] = useState("")
   const [ Description, setDescription ] = useState("")
   const [ Price, setPrice ] = useState(0)
+  const [ Stock, setStock ] = useState(0)
   const [ Continent, setContinent ] = useState(1)
   const [ Images, setImages ] = useState([])
 //event handler
@@ -36,6 +37,9 @@ function UploadProductPage(props) {
   }
   const priceChangeHandler = (event) => {
     setPrice(event.currentTarget.value)
+  }
+  const stockChangeHandler = (event) => {
+    setStock(event)
   }
   const continentChangeHandler = (event) => {
     setContinent(event.currentTarget.value)
@@ -58,6 +62,7 @@ function UploadProductPage(props) {
       title: Title,
       description: Description,
       price: Price,
+      stock: Stock,
       continent : Continent,
       images: Images
     }
@@ -97,6 +102,11 @@ function UploadProductPage(props) {
         <br />
         <label>가격</label>
         <Input onChange={ priceChangeHandler } value={Price}/>
+        <br />
+        <br />
+        <label>재고</label>
+        <br />
+        <InputNumber min={1} max={10000} defaultValue={Stock} onChange={stockChangeHandler} value={Stock}/>
         <br />
         <br />
         <select onChange={ continentChangeHandler } >

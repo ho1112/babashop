@@ -33,6 +33,10 @@ const ProductSchema = mongoose.Schema({
     continents: { //대륙구분(아시아, 유럽, 아프리카...)
         type: Number,
         default: 1
+    },
+    stock: { //재고
+        type: Number,
+        default: 100
     }
 }, { timestamps: true} ) //update time auto set
 

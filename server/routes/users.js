@@ -196,7 +196,8 @@ router.post('/successBuy', auth, (req, res) => {
                         {_id: item.id},
                         {
                             $inc: {
-                                "sold" : item.quantity
+                                "sold" : item.quantity,  //+판매량
+                                "stock" : -item.quantity //-재고수량
                             }
                         },
                         {new: false},
