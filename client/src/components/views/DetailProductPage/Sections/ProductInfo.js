@@ -1,15 +1,44 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button, Descriptions } from 'antd'
 import { useDispatch } from 'react-redux'
 import { addToCart} from '../../../../_actions/user_actions'
+import '../../../views/btn_count.css';
 
 function ProductInfo(props) {
+
+    const [Count, setCount] = useState(1);
 
     const dispatch = useDispatch();
 
     const clickHandler = () => {
         //필요한 정보를 cart필드에 넣어준다 상품ID, 개수, 날짜
-        dispatch(addToCart(props.detail._id))
+        if(props.detail.stock < Count) { //재고보다 선택수량이 많을 경우
+            return alert(`現在在庫が選択した数量より足りないです。`+"\n"+`現在在庫 : ${props.detail.stock}`);
+        }
+        dispatch(addToCart(props.detail._id, Count))
+    }
+
+    const countHandler = (event) => {
+        const count_input = document.querySelector(".count_input");
+
+        switch(event.target.className){
+            case "btn_minus" :
+                if(count_input.value <= 1) return false;
+                count_input.value = parseInt(count_input.value) -1;
+            break;
+            case "count_input" :
+                count_input.value =  count_input.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1')
+                        if(count_input.value > 9999) {
+                            count_input.value = 9999;
+                        }
+            break;
+            case "btn_plus" :
+                if(count_input.value >= 9999) return false;
+                count_input.value = parseInt(count_input.value) +1;
+            break;
+            default : return false;
+        }
+        setCount(count_input.value);
     }
 
 
@@ -22,6 +51,23 @@ function ProductInfo(props) {
             <Descriptions.Item label="Description">{props.detail.description}</Descriptions.Item>
         </Descriptions>
         <br />
+        <br />
+        <br />
+        {props.detail.stock < 10?
+            <span>`残り{props.detail.stock}点`</span>
+        : null
+        }
+        <br/> 
+        <span className="bx_count">
+        {Count == 1?
+            <button type="button" className="btn_minus" disabled="disabled" onClick={countHandler} />
+            :
+            <button type="button" className="btn_minus" onClick={countHandler} />
+        }
+            <input type="text" className="count_input" defaultValue="1" onKeyUp={countHandler}/>
+            <button type="button" className="btn_plus" onClick={countHandler} />
+        </span>
+
         <br />
         <br />
 

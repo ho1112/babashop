@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { getCartItems, removeCartItem, onSuccessBuy } from '../../../_actions/user_actions';
+import { getCartItems, removeCartItem, onSuccessBuy, updateCartItem } from '../../../_actions/user_actions';
 import UserCardBlock from './Sctions/UserCardBlock';
 import { Empty, Result } from 'antd'
 import Paypal from '../../utils/Paypal'
+
 
 function CartPage(props) {
 
@@ -14,7 +15,6 @@ function CartPage(props) {
   const [ShowSuccess, setShowSuccess] = useState(false)
 
   useEffect(() => {
-
     let cartItems = []
     //리덕스 user state의 cart 안에 상품이 들어있는지 확인
     if(props.user.userData && props.user.userData.cart) {
@@ -38,6 +38,13 @@ function CartPage(props) {
     setTotal(total);
     setShowTotal(true)
   } 
+
+  //카트 갱신처리 - 상품ID, 선택수량
+  let updateFromCart = (productId, count) => {
+    dispatch(updateCartItem(productId, count) )
+      .then(response => {
+      })
+  }
 
   //카트 삭제
   let removeFromCart = (productId) => {
@@ -67,7 +74,7 @@ function CartPage(props) {
     <div style={{ width: '85%', margin: '3rem auto' }}>
       <h1>My Cart</h1>
       <div>
-        <UserCardBlock products={props.user.cartDetail} removeItem={removeFromCart} />
+        <UserCardBlock products={props.user.cartDetail} removeItem={removeFromCart} updateItem={updateFromCart} />
       </div>
 
       {ShowTotal ?

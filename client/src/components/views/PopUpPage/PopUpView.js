@@ -11,8 +11,7 @@ function PopUpView(props) {
 
   const onCheck = () => {
     setSelCheck(!selCheck);
-    //alert("click");
-    console.log("popupView, oncheck "+!selCheck);
+    //console.log("popupView, oncheck "+!selCheck);
   }
 
   return (

@@ -138,7 +138,6 @@ router.post('/products', (req, res) => {
 router.get('/products_by_id', (req, res) => {
   let type = req.query.type
   let productIds = req.query.id
-console.log('router'+productIds)
   if(type === "array") {
     //ex) id=5e995643,7fv8d6f8g,48vtd6ee4 -> productIds =['5e995643','7fv8d6f8g','48vtd6ee4']변경
     let ids = req.query.id.split(',');

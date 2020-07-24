@@ -20,14 +20,10 @@ function FileUpload(props) {
       // 2. 읽기가 완료되면 reander에서 base64을 읽어 state에 넣어준다.
       const base64 = reader.result;
       if (base64) {
-
-        console.log(files)
-
         files[0].base64 = base64.toString();
         //setImageBase64([...imageBase64, base64.toString()]); // 파일 base64 상태 업데이트
         setImages([...Images, files[0]]); // 파일 상태 업데이트
         props.refreshFunction([...Images, files[0] ]) //UploadProductPage update state 부모페이지 state에 전달
-        console.log(files[0])
       }
     }
     
@@ -58,7 +54,6 @@ function FileUpload(props) {
     //image delete
     const deleteHandler = (image) => {
         const currentIndex = Images.indexOf(image)
-        console.log(currentIndex)
         let newImages = [...Images]
         newImages.splice(currentIndex, 1) // delete 1 item
         setImages(newImages) //request update state

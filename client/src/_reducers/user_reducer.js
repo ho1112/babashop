@@ -6,7 +6,8 @@ import {
     ADD_TO_CART,
     GET_CART_ITEMS,
     REMOVE_CART_ITEM,
-    ON_SUCCESS_BUY
+    ON_SUCCESS_BUY,
+    UPDATE_CART_ITEM
 } from '../_actions/types';
  
 
@@ -21,7 +22,6 @@ export default function(state={},action){
         case LOGOUT_USER:
             return {...state }
         case ADD_TO_CART:
-            console.log("add");
             return {...state, 
                 userData: {
                     ...state.userData,
@@ -31,6 +31,12 @@ export default function(state={},action){
         case GET_CART_ITEMS:
             return {...state, cartDetail: action.payload} //user_actions.js.getCartItems의 response.data
         case REMOVE_CART_ITEM:
+            return {...state, cartDetail: action.payload.productInfo,
+                    userData:{
+                        ...state.userData,
+                        cart: action.payload.cart
+                    }}
+        case UPDATE_CART_ITEM:
             return {...state, cartDetail: action.payload.productInfo,
                     userData:{
                         ...state.userData,

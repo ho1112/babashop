@@ -89,7 +89,8 @@ router.post("/addToCart", auth, (req, res) => {
                 //상품이 이미 있을 떄(기존정보에 업데이트)
                 User.findOneAndUpdate(
                     {_id: req.user._id, "cart.id" : req.body.productId}, //갱신대상 : User._id일치 && cart.id일치하는 것
-                    { $inc : { "cart.$.quantity" : 1} }, //increment cart의quantity를 1 increment한다
+                    //{ $inc : { "cart.$.quantity" : 1} }, //increment cart의quantity를 1 increment한다
+                    { $inc : { "cart.$.quantity" : req.body.count} }, //선택한 수량만큼 increment
                     { new: true}, // new:true를 넣어주면 갱신 후 데이터를 받아온다, 아래의 userInfo
                     (err, userInfo) => {
                         if(err) return res.status(200).json({ success:false, err})
@@ -104,7 +105,7 @@ router.post("/addToCart", auth, (req, res) => {
                         $push: {
                             cart: { //업데이트할 정보
                                 id: req.body.productId,
-                                quantity : 1,
+                                quantity : req.body.count, //선택한 수량
                                 date : Date.now()
                             }
                         }
@@ -118,6 +119,41 @@ router.post("/addToCart", auth, (req, res) => {
             }
         })
 });
+
+//카트 갱신
+router.get('/updateFromCart', auth, (req, res) => {
+    //카트 안에 대상 상품을 갱신
+    User.findOneAndUpdate(
+        {_id: req.user._id, "cart.id" : req.query.id},
+        {
+            $set:{
+                //cart :{
+                    //id: req.query.id,
+                    "cart.$.quantity" : req.query.count,
+                    "cart.$.date" : Date.now()
+                    //quantity: req.query.count, //선택한 수량
+                    //date : Date.now()
+                //}
+            }
+        },
+        { new: true },
+        (err, userInfo) => {
+            let cart = userInfo.cart;
+            let array = cart.map(item => {
+                return item.id
+            })
+            //product collection에서 현재 남아있는 상품들의 정보를 가져오기
+            Product.find({ _id : { $in : array }})
+            .populate('writer')
+            .exec((err, productInfo) => {
+                return res.status(200).json({
+                    productInfo,
+                    cart
+                })
+            })
+        }
+    )
+})
 
 router.get('/removeFromCart', auth, (req, res) => {
     //카트 안에 지우려고 하는 상품을 삭제

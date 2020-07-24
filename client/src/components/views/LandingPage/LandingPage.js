@@ -61,11 +61,12 @@ function LandingPage() {
         setSkip(skip)//스킵값 보존
     }
 
-    //ant design - Carousel로 이미지 슬라이더 구현
+    // 상품목록 ant design - Carousel로 이미지 슬라이더 구현
     const renderCards = Products.map((product, index) =>{
         return <Col lg={6} md={8} xs={24} key={index}>
             <Card
-                cover={<a href={`/product/${product._id}`} ><ImageSlider images={product.images} /></a>}
+                cover={<a href={`/product/${product._id}`} ><span style={{ textAlign: 'center', zIndex: '10', position: 'absolute',left: '0', width: '62px', backgroundColor: '#f5222d', color: '#fff', fontWeight: '600', fontSize: '10px', fontFamily: 'Volte' }}   class="product_icon">あとわずか</span>
+                <ImageSlider images={product.images} /></a>}
             >
                 <Meta
                     title={product.title}
