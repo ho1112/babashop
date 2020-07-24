@@ -53,7 +53,6 @@ export function logoutUser(){
 }
 
 export function addToCart(id, count){
-    
     let body = {
         productId : id,
         count : count //선택수량
@@ -66,7 +65,6 @@ export function addToCart(id, count){
         type: ADD_TO_CART,
         payload: request
     }
-    
 }
 
 //cartPage

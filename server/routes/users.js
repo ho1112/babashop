@@ -127,13 +127,8 @@ router.get('/updateFromCart', auth, (req, res) => {
         {_id: req.user._id, "cart.id" : req.query.id},
         {
             $set:{
-                //cart :{
-                    //id: req.query.id,
-                    "cart.$.quantity" : req.query.count,
+                    "cart.$.quantity" : parseInt(req.query.count), //선택한 수량
                     "cart.$.date" : Date.now()
-                    //quantity: req.query.count, //선택한 수량
-                    //date : Date.now()
-                //}
             }
         },
         { new: true },

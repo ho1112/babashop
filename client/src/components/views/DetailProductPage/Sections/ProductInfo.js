@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button, Descriptions } from 'antd'
 import { useDispatch } from 'react-redux'
 import { addToCart} from '../../../../_actions/user_actions'
@@ -7,15 +7,21 @@ import '../../../views/btn_count.css';
 function ProductInfo(props) {
 
     const [Count, setCount] = useState(1);
+    const [Stock, setStock] = useState(); //在庫
+
+    useEffect(() => {
+        setStock(props.detail.stock);
+    }, [props.detail.stock])
 
     const dispatch = useDispatch();
 
     const clickHandler = () => {
         //필요한 정보를 cart필드에 넣어준다 상품ID, 개수, 날짜
-        if(props.detail.stock < Count) { //재고보다 선택수량이 많을 경우
-            return alert(`現在在庫が選択した数量より足りないです。`+"\n"+`現在在庫 : ${props.detail.stock}`);
+        if(Stock < Count) { //재고보다 선택수량이 많을 경우
+            return alert(`現在在庫が選択した数量より足りないです。`+"\n"+`現在在庫 : ${Stock}`);
         }
-        dispatch(addToCart(props.detail._id, Count))
+        console.log(props.detail._id+" , "+ Count)
+        dispatch(addToCart(props.detail._id, parseInt(Count)))
     }
 
     const countHandler = (event) => {
@@ -53,8 +59,8 @@ function ProductInfo(props) {
         <br />
         <br />
         <br />
-        {props.detail.stock < 10?
-            <span>`残り{props.detail.stock}点`</span>
+        {Stock < 10?
+            <span>`残り{Stock}点`</span>
         : null
         }
         <br/> 

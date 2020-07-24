@@ -38,7 +38,7 @@ function UserCardBlock(props) {
         break;
         default : return false;
     }
-    props.updateItem(productId, count_input.value) //cartPage에 선택수량 갱신처리를 요청
+    props.updateItem(productId, parseInt(count_input.value)) //cartPage에 선택수량 갱신처리를 요청
 }
 
   const renderItems = () => (
