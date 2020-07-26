@@ -1,0 +1,89 @@
+.popup-layer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(17,17,17,.5);
+    z-index: 3000;
+}
+
+.popup_common {
+    background: #fff;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%,-50%);
+    transform: translate(-50%,-50%);
+    color: #5a5a5a;
+    font-size: 14px;
+    letter-spacing: 0;
+    border-radius: 8px;
+    height: calc(100% - 40px);
+    width: 680px;
+    z-index: 3100;
+}
+.popup_textArea {
+    border: 1px solid #ededed;
+}
+.popup_textArea > textarea {
+    height: 265px;
+    border: 0;
+    outline:none;
+}
+
+.text_count {
+    margin-top: 20px;
+
+    padding: 0 15px 15px 0;
+    display: block;
+    text-align: right;
+    color: #999;
+    font-size: 14px;
+    font-weight: 600;
+    font-family: Volte;
+}
+
+.text_count .num {
+    color: #333;
+}
+
+.btn_close {
+    width: 32px;
+    height: 32px;
+    display: block;
+    position: absolute;
+    top: 12px;
+    right: 18px;
+    background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAWZJREFUWAntVLFOhEAQBWylkoaExI4vAGKoKGzsLY7EWNj4Oyb+gTG5xl5LursIH0HDF2BiYgHOS1hDCMvsrp3uJhfmdubNe7ydxXHssg5YB/67AyecAVmWnYVh+BDHcdW27RdXj3xRFKdBEDxGUXTouu5zC+NtJZEbxzGlx13f969ozNWjBrXATNhNCCugrus36lC6rnvBiRDkqAVmwm4KcDezs2SSJNf0d09vdfR9/6qqqo9Z2lmSN03zMs/LYmUBaCATYUqOnloC1kRgD0cjbFd9c+CwtAUAJJyg8H0YBsfzvIziUpccvYwEAJim6Q2RPyEmAbc0cM+IdRd7C9Ya4syJ/J5sH/BDjL21Wm5PW8Bi4HZEsMP5c1dUJkTrCBbkP2cuZkJ2RWXk2FcWICMXzU1FKAngyH8jghWgSm4qgh1CGq5Laq58z6dvQQnMhBXazJ95np/rok0wuhy23jpgHfgbDnwDBiTUDU26wKQAAAAASUVORK5CYII=) no-repeat 0 0;
+    background-size: 100% 100%;
+
+    border: 0;
+    cursor: pointer;
+    outline:none;
+
+}
+
+.popup_btn{
+    width: 176px;
+    margin: 0 auto 26px;
+}
+
+.btn_submit {
+    background-color: #00d664;
+    cursor: pointer;
+
+    display: block;
+    width: 100%;
+    border-radius: 4px;
+    padding: 0 15px;
+    height: 52px;
+    line-height: 52px;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 700;
+    text-align: center;
+    cursor: pointer;
+    box-sizing: border-box;
+    outline: none;
+}

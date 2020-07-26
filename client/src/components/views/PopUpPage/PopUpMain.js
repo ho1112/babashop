@@ -2,7 +2,6 @@
 import React, { useState, useEffect } from 'react';
 //import moment from 'moment';
 import { withCookies, Cookies, ReactCookieProps } from 'react-cookie';
-
 import PopUpView from './PopUpView';
 import { COOKIE_VALUE } from './PopUpConstance'
 

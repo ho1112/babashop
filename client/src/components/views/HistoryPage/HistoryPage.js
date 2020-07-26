@@ -1,8 +1,6 @@
 import React from 'react';
-import Axios from 'axios';
 
 function HistoryPage(props) {
-
     //리덕스에서 history를 가져와 넣어준다
   return (
     <div style={{ width: '80%', margin: '3rem auto'}}>

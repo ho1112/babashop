@@ -79,7 +79,7 @@ function CartPage(props) {
 
       {ShowTotal ?
         <div style={{ marginTop: '3rem' }}>
-          <h2>Total Amount : ${Total}</h2>
+          <h2>小計(税込) : ¥{Total}</h2>
         </div>
         : ShowSuccess ? //결제 성공 정보가 있다면
           <Result

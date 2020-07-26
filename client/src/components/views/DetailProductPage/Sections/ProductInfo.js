@@ -3,25 +3,40 @@ import { Button, Descriptions } from 'antd'
 import { useDispatch } from 'react-redux'
 import { addToCart} from '../../../../_actions/user_actions'
 import '../../../views/btn_count.css';
+import { useSelector } from "react-redux";
 
 function ProductInfo(props) {
 
     const [Count, setCount] = useState(1);
     const [Stock, setStock] = useState(); //在庫
+    const [Total, setTotal] = useState(0)
+
+    const user = useSelector(state => state.user) //리덕스에서 유저정보를 가져온다.
 
     useEffect(() => {
         setStock(props.detail.stock);
-    }, [props.detail.stock])
+        setTotal(props.detail.price);
+        console.log(Total)
+    }, [props.detail.stock], [props.detail.price])
 
     const dispatch = useDispatch();
 
     const clickHandler = () => {
         //필요한 정보를 cart필드에 넣어준다 상품ID, 개수, 날짜
         if(Stock < Count) { //재고보다 선택수량이 많을 경우
-            return alert(`現在在庫が選択した数量より足りないです。`+"\n"+`現在在庫 : ${Stock}`);
+            return alert(`現在在庫が選択した数量より少ないです。`+"\n"+`現在在庫 : ${Stock}`);
         }
-        console.log(props.detail._id+" , "+ Count)
-        dispatch(addToCart(props.detail._id, parseInt(Count)))
+        //기존카트수량 + 새로 추가할 수량이 재고보다 많다면
+        user.userData.cart.map( (item) => {
+            if(item.id === props.detail._id) {
+                if(item.quantity+parseInt(Count) > Stock) {
+                    let addableQuantity = item.quantity+parseInt(Count) - Stock
+                    return alert(`現在在庫が選択した数量と既存数量の合計より少ないです。`+"\n"+`現在在庫 : ${Stock}`+"\n"+`追加できる数量は${addableQuantity}点です。`);
+                }
+            }
+        })
+
+        //dispatch(addToCart(props.detail._id, parseInt(Count)))
     }
 
     const countHandler = (event) => {
@@ -44,7 +59,9 @@ function ProductInfo(props) {
             break;
             default : return false;
         }
-        setCount(count_input.value);
+
+        setCount(count_input.value); //수량갱신
+        setTotal(parseInt(count_input.value) * props.detail.price ); //합계갱신
     }
 
 
@@ -56,8 +73,6 @@ function ProductInfo(props) {
             <Descriptions.Item label="View">{props.detail.views}</Descriptions.Item>
             <Descriptions.Item label="Description">{props.detail.description}</Descriptions.Item>
         </Descriptions>
-        <br />
-        <br />
         <br />
         {Stock < 10?
             <span>`残り{Stock}点`</span>
@@ -73,10 +88,11 @@ function ProductInfo(props) {
             <input type="text" className="count_input" defaultValue="1" onKeyUp={countHandler}/>
             <button type="button" className="btn_plus" onClick={countHandler} />
         </span>
-
         <br />
+        <div style={{ marginTop: '3rem' }}>
+          <h2>商品小計(税込) : ¥{Total}</h2>
+        </div>
         <br />
-
         <div style={{ display: 'flex', justifyContent: 'center' }}>
             <Button size="large" shape="round" type="danger" onClick={clickHandler} >
                 Add to Cart
