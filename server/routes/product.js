@@ -80,6 +80,62 @@ router.post('/', (req, res) => {
   }
 })
 
+//상품 리뷰(DB저장)
+router.post('/review', (req, res) => {
+  //req -> DB
+  //상품 안의 리뷰를 등록(갱신)
+  Product.findOneAndUpdate(
+    {_id: req.body.productId},
+    {
+        $push:{
+          review: {
+            writer:req.body.writer, 
+            review:req.body.review,
+            date:Date.now(),
+            rate:req.body.rate,
+            like:req.body.like
+          }
+          /*
+                "review.$.id" : req.body.writer, 
+                "review.$.review" : req.body.review,
+                "review.$.date" : Date.now(),
+                "review.$.rate" : req.body.rate,
+                "review.$.like" : req.body.like
+                */
+        }
+    },
+    { upsert: true, new: true },
+    (err, productInfo) => {
+      if(err) return res.status(400).json({ success:false, err})
+      res.status(200).json( {success: true, productInfo })
+    }
+)
+})
+
+//상품 질문(DB저장)
+router.post('/qna', (req, res) => {
+  //req -> DB
+  //상품 안의 질문을 등록(갱신)
+  Product.findOneAndUpdate(
+    {_id: req.body.productId},
+    {
+        $push:{
+          qna: {
+            writer:req.body.writer, 
+            qna:req.body.qna,
+            date:Date.now(),
+            public:req.body.public
+          }
+        }
+    },
+    { upsert: true, new: true },
+    (err, productInfo) => {
+      if(err) return res.status(400).json({ success:false, err})
+      res.status(200).json( {success: true, productInfo })
+    }
+)
+})
+
 //Landing page(top)
 router.post('/products', (req, res) => {
   console.log('top top ')

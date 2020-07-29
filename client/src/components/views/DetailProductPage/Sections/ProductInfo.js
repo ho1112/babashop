@@ -16,7 +16,6 @@ function ProductInfo(props) {
     useEffect(() => {
         setStock(props.detail.stock);
         setTotal(props.detail.price);
-        console.log(Total)
     }, [props.detail.stock], [props.detail.price])
 
     const dispatch = useDispatch();

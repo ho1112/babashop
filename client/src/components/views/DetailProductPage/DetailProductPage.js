@@ -41,7 +41,7 @@ function DetailProductPage(props) {
       <br />
       <br />
       
-      <ProductUserResponse  />
+      <ProductUserResponse detail={Product} />
 
 </div>
 

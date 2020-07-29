@@ -1,9 +1,34 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import ProductUserQnAModal from './ProductUserQnAModal'
 
-function ProductQnA() {
+function ProductQnA(props) {
 
     const [Skip, setSkip] = useState(0)
     const [Limit, setLimit] = useState(3) //default image count:8
+    const [showQnAModal, setshowQnAModal] = useState(false);
+    const [qnaList, setQnaList] = useState([]);
+
+    useEffect(() =>{
+      //Axios
+  
+      if(props.detail && props.detail.qna){
+        let qnas = [];
+        props.detail.qna.map( item => {
+          let date = new Date(item.date).toString();
+          let adminDate = new Date(item.adminAnswerDate).toString();
+          qnas.push({
+            writer: item.writer,
+            qna: item.qna,
+            date: date,
+            adminAnswer: item.adminAnswer,
+            adminAnswerDate: adminDate,
+            public: item.public
+          })
+        })
+        setQnaList(qnas)
+        console.log(qnas.length)
+      }
+    },[props.detail])
 
     //더보기
     const loadMoreHandler = () => {
@@ -32,46 +57,81 @@ function ProductQnA() {
         },
       ];
 
-    const answerHandler = (event) => {
+    const answerHandler = () => {
+      console.log("ok")
+      setshowQnAModal(false);
+    }
 
+    const inputQna = () => {
+      setshowQnAModal(true);
+    }
+
+    const showQnACancel = (event) => {
+      if(event.target.className === "popup-layer" || event.target.className === "btn_close"){
+          setshowQnAModal(false);
+      }
+    }
+
+    //질문 등록 후 새로고침
+    const qnaRefresh = (newQna) => {
+      //console.log("reviewRefresh : "+ props.detail.review[0].rate)
+      console.log("qnaRefresh"+newQna)
+      let qnas = [];
+      newQna.qna.map( item => {
+        let date = new Date(item.date).toString();
+        let adminDate = new Date(item.adminAnswerDate).toString();
+        qnas.push({
+          writer: item.writer,
+          qna: item.qna,
+          date: date,
+          adminAnswer: item.adminAnswer,
+          adminAnswerDate: adminDate,
+          public: item.public
+        })
+      })
+      setQnaList(qnas)
+      setshowQnAModal(false);
     }
 
   return (
 
     <div style={{marginLeft: '10%', marginRight: '10%'}}>
-    <h1>商品Q&A {data.length}</h1>
+    <h1>商品Q&A {qnaList.length}</h1>
     <br />
-    <button>질문투고</button>
+    <button onClick={inputQna}>질문투고</button>
     <br />
     <hr />
     <div>
-        {data.map( (item, index) => (
+        {qnaList && qnaList.map( (item, index) => (
             <>
             <div onClick={answerHandler} key={index}>
                 <div style={{display:'flex'}}>
-                    <p>writer***</p>
+                    <p>{item.writer}</p>
                     <p>답변여부</p>
                 </div>
-                <p>{item.title}</p>
+                <pre>{item.qna}</pre>
                 <br />
                 <div style={{display:'flex'}}>
-                    <p>2020-07-26 12:00:00</p>
+                    <p>{item.date}</p>
                 </div>
             </div>    
             <hr />
 
             <div onClick={answerHandler}>
                 <p>관리자로부터의 답변</p>
-                <p>{item.title}</p>
+                <pre>{item.adminAnswer}</pre>
                 <br />
                     <p>2020-07-26 12:00:00</p>
                 <hr />
             </div>
             </>
-
         ))}
-
     </div>
+
+    {showQnAModal &&
+      <ProductUserQnAModal detail={props.detail} cancel={showQnACancel} submit={qnaRefresh}/>
+    }
+
 </div>
       
   );

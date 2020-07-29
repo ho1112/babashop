@@ -1,71 +1,114 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Rate } from 'antd'
-import ProductUserResponseModal from './ProductUserResponseModal'
+import ProductUserReviewModal from './ProductUserReviewModal'
 
 
-function ProductReview() {
+function ProductReview(props) {
 
-    const [showReviewModal, setshowReviewModal] = useState(false);
+  const [showReviewModal, setshowReviewModal] = useState(false);
+  const [reviewList, setReviewList] = useState([]);
 
-    const data = [
-        {
-          title: 'Ant Design Title 1',
-        },
-        {
-          title: 'Ant Design Title 2',
-        },
-        {
-          title: 'Ant Design Title 3',
-        },
-        {
-          title: 'Ant Design Title 4',
-        },
-      ];
+  useEffect(() =>{
+    //Axios
+    if(props.detail && props.detail.review){
+      let reviews = [];
+      props.detail.review.map( item => {
+        let date = new Date(item.date).toString();
+        reviews.push({
+          writer: item.writer,
+          review: item.review,
+          date: date,
+          rate: item.rate,
+          like: item.like
+        })
+      })
+      setReviewList(reviews)
+      console.log(reviews.length)
+    }
+  },[props.detail])
 
-      const inputReview = () => {
-        setshowReviewModal(true);
-      }
+  const data = [
+      {
+        title: 'Ant Design Title 1',
+      },
+      {
+        title: 'Ant Design Title 2',
+      },
+      {
+        title: 'Ant Design Title 3',
+      },
+      {
+        title: 'Ant Design Title 4',
+      },
+    ];
 
-      const ReviewUploadHandler = () => {
-        console.log("ok")
-        setshowReviewModal(false);
-      }
+    const inputReview = () => {
+      setshowReviewModal(true);
+    }
 
-      const showReviewCancel = (event) => {
-          if(event.target.className === "popup-layer"){
-              setshowReviewModal(false);
-          }
-      }
+    const ReviewUploadHandler = () => {
+      console.log("ok")
+      setshowReviewModal(false);
+    }
+
+    const showReviewCancel = (event) => {
+        if(event.target.className === "popup-layer" || event.target.className === "btn_close"){
+            setshowReviewModal(false);
+        }
+    }
+
+    //리뷰 등록 후 새로고침
+    const reviewRefresh = (newReview) => {
+      //console.log("reviewRefresh : "+ props.detail.review[0].rate)
+      console.log("reviewRefresh"+newReview)
+      let reviews = [];
+      newReview.review.map( item => {
+        let date = new Date(item.date).toString();
+        reviews.push({
+          writer: item.writer,
+          review: item.review,
+          date: date,
+          rate: item.rate,
+          like: item.like
+        })
+      })
+      setReviewList(reviews)
+      setshowReviewModal(false);
+    }
+
 
 
   return (
     <div style={{marginLeft: '10%', marginRight: '10%'}}>
-        <h1>レビュー {data.length}</h1>
+        <h1>レビュー {reviewList && reviewList.length}</h1>
         <br />
         <button>오스스메순</button>
         <button>신착순</button>
         <button onClick={inputReview}>리뷰등록</button>
         <br />
         <hr />
+
         <div>
-            {data.map( (item,index) => (
+            {reviewList && reviewList.map( (item,index) => (
                 <>
-                <Rate disabled  defaultValue={2} />
-                <p key={index}>{item.title}</p>
+                <Rate disabled  defaultValue={item.rate} />
+                <pre key={index}>{item.review}</pre>
                 <br />
                 <div style={{display:'flex'}}>
-                    <p>writer</p>
-                    <p>2020-07-26 12:00:00</p>
+                    <p>{item.writer}</p>
+                    <p>{item.date}</p>
                     <p>추천</p>
-                    <button>추천버튼</button>
+                    <button onClick={reviewRefresh}>추천버튼</button>
                 </div>
                 <hr />
                 </>
             ))}
         </div>
 
+        
+
         {showReviewModal &&
-            <ProductUserResponseModal cancel={showReviewCancel} />
+            <ProductUserReviewModal detail={props.detail} cancel={showReviewCancel} submit={reviewRefresh} />
         }
 
     </div>

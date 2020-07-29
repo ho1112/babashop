@@ -37,6 +37,14 @@ const ProductSchema = mongoose.Schema({
     stock: { //재고
         type: Number,
         default: 100
+    },
+    review: { //리뷰
+        type: Array,
+        default: []
+    },
+    qna: { //질문
+        type: Array,
+        default: []
     }
 }, { timestamps: true} ) //update time auto set
 
