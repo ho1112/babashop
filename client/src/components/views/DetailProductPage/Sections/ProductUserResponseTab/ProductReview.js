@@ -13,11 +13,15 @@ function ProductReview(props) {
     if(props.detail && props.detail.review){
       let reviews = [];
       props.detail.review.map( item => {
-        let date = new Date(item.date).toString();
+        let date = new Date(item.date);
+        let month = props.getZero(date.getMonth()+1);
+        let day = props.getZero(date.getDate());
+        let hours = props.getZero(date.getHours());
+        let min = props.getZero(date.getMinutes())
         reviews.push({
           writer: item.writer,
           review: item.review,
-          date: date,
+          date: `${date.getFullYear()}-${month}-${day} ${hours}:${min}:${date.getSeconds()}`,
           rate: item.rate,
           like: item.like
         })
@@ -26,21 +30,6 @@ function ProductReview(props) {
       console.log(reviews.length)
     }
   },[props.detail])
-
-  const data = [
-      {
-        title: 'Ant Design Title 1',
-      },
-      {
-        title: 'Ant Design Title 2',
-      },
-      {
-        title: 'Ant Design Title 3',
-      },
-      {
-        title: 'Ant Design Title 4',
-      },
-    ];
 
     const inputReview = () => {
       setshowReviewModal(true);
@@ -63,11 +52,15 @@ function ProductReview(props) {
       console.log("reviewRefresh"+newReview)
       let reviews = [];
       newReview.review.map( item => {
-        let date = new Date(item.date).toString();
+        let date = new Date(item.date);
+        let month = props.getZero(date.getMonth()+1);
+        let day = props.getZero(date.getDate());
+        let hours = props.getZero(date.getHours());
+        let min = props.getZero(date.getMinutes())
         reviews.push({
           writer: item.writer,
           review: item.review,
-          date: date,
+          date: `${date.getFullYear()}-${month}-${day} ${hours}:${min}:${date.getSeconds()}`,
           rate: item.rate,
           like: item.like
         })
@@ -82,8 +75,8 @@ function ProductReview(props) {
     <div style={{marginLeft: '10%', marginRight: '10%'}}>
         <h1>レビュー {reviewList && reviewList.length}</h1>
         <br />
-        <button>오스스메순</button>
-        <button>신착순</button>
+        {/* <button>오스스메순</button>
+        <button>신착순</button> */}
         <button onClick={inputReview}>리뷰등록</button>
         <br />
         <hr />
@@ -95,10 +88,10 @@ function ProductReview(props) {
                 <pre key={index}>{item.review}</pre>
                 <br />
                 <div style={{display:'flex'}}>
-                    <p>{item.writer}</p>
+                    <p style={{paddingRight:'1.8em'}}>{item.writer}</p>
                     <p>{item.date}</p>
-                    <p>추천</p>
-                    <button onClick={reviewRefresh}>추천버튼</button>
+                    {/* <p>추천</p>
+                    <button onClick={reviewRefresh}>추천버튼</button> */}
                 </div>
                 <hr />
                 </>

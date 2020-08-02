@@ -34,7 +34,7 @@ function ProductUserQnAModal(props) {
         productId: props.detail._id, //상품아이디
         writer: user.userData.name, //from redux
         qna: qna,
-        public: "public"
+        public: checked ? "private" : "public" //공개여부
         }
         
         Axios.post("/api/product/qna", body)
