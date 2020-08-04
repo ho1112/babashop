@@ -4,7 +4,7 @@ import { getCartItems, removeCartItem, onSuccessBuy, updateCartItem } from '../.
 import UserCardBlock from './Sctions/UserCardBlock';
 import { Empty, Result } from 'antd'
 import Paypal from '../../utils/Paypal'
-
+import Axios from 'axios';
 
 function CartPage(props) {
 
@@ -59,7 +59,7 @@ function CartPage(props) {
   //결제 성공 후 결제 정보 처리
   const transactionSuccess = (data) => {
     dispatch(onSuccessBuy({
-      paymentData: data,
+      paymentData: data, //paymentData.paymentID 
       cartDetail: props.user.cartDetail
     }))
     .then(response => {
@@ -68,6 +68,25 @@ function CartPage(props) {
         setShowSuccess(true)
       }
     })
+  }
+
+  const linePay = () => {
+    const body = {
+      cartDetail: props.user.cartDetail
+      }
+
+    Axios.post("/api/product/linePay/reserve", body)
+    .then(response => {
+      if(response.data.success){
+        console.log("linePay response ▼")
+        console.log(response.data.response.info.paymentUrl.web)
+        window.location.replace(response.data.response.info.paymentUrl.web);
+      }else{
+        console.log("errrr")
+      }
+
+    })
+
   }
 
   return (
@@ -98,6 +117,9 @@ function CartPage(props) {
           total={Total}
           onSuccess={transactionSuccess}
         />
+      }
+      {ShowTotal &&
+          <button onClick={linePay}>line pay</button>
       }
 
     </div>

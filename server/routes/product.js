@@ -2,11 +2,15 @@ const express = require('express');
 const router = express.Router();
 const multer = require('multer');
 const { Product } = require('../models/Product')
-
-//const { storage } = require('../config/firebaseConfig')
+const  {  v4 : uuid  }  =  require ( 'uuid' ) ;
 
 const { bucket } = require('../config/firebaseConfig')
 let async = require('async');
+
+const line = require("line-pay-sdk");
+const dotenv = require("dotenv");
+
+dotenv.config();
 
 //=================================
 //             Product
@@ -211,5 +215,56 @@ router.get('/products_by_id', (req, res) => {
       })
 })
 
+//line pay
+const client = new line.Client({
+  channelId: process.env.LINE_PAY_CHANNEL_ID,
+  channelSecret: process.env.LINE_PAY_CHANNEL_SECRET,
+});
+
+router.post('/linePay/reserve', (req, res) => {
+  console.log("linepay reserve")
+  const options = {
+    productName: "test",
+    amount: 1,
+    currency: "JPY",
+    orderId: uuid(),
+    confirmUrl: `http://localhost:3000/linePayConfirm`
+    //confirmUrl: `/api/product/linePay/confirm`
+  };
+
+  client.reservePayment(options).then((response) => {
+    console.log("Reservation was made!");
+    console.log("Response: ", response);
+    console.log(response.info.paymentUrl.web)
+
+    if(response.returnMessage !== 'Success.') return res.status(400).json({ success:false})
+    res.status(200).json( {success: true, response })
+
+    //res.redirect(response.info.paymentUrl.web);
+  });
+
+})
+
+// Router configuration to recieve notification when user approves payment.
+//결제성공
+router.post("/linePay/confirm", (req, res) => {
+  console.log("걸제성공 confirm")
+  if (!req.query.transactionId){
+    throw new Error("Transaction Id not found.");
+  }
+
+  const confirmation = {
+    transactionId: req.query.transactionId,
+    amount: 1,
+    currency: "JPY"
+  };
+
+  console.log(`Going to confirm payment with following options.`);
+  console.log(confirmation);
+
+  client.confirmPayment(confirmation).then((response) => {
+    res.send("Payment has been completed.");
+  });
+});
 
 module.exports = router;
