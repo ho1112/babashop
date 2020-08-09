@@ -71,22 +71,25 @@ function CartPage(props) {
   }
 
   const linePay = () => {
+    let image ="https://firebasestorage.googleapis.com/v0/b/babashop-801b2.appspot.com/o/linePay%2Flinepay.jpg?alt=media&token=96c19957-13f5-4832-bc47-5e4530d31a8f"
     const body = {
-      cartDetail: props.user.cartDetail
-      }
-
-    Axios.post("/api/product/linePay/reserve", body)
+      cartDetail: props.user.cartDetail,
+      host : window.location.host,
+      image : image
+    }
+    Axios.post("/api/users/linePay/reserve", body)
     .then(response => {
       if(response.data.success){
+        sessionStorage.setItem("cartDetail", props.user.cartDetail)
         console.log("linePay response ▼")
         console.log(response.data.response.info.paymentUrl.web)
         window.location.replace(response.data.response.info.paymentUrl.web);
       }else{
         console.log("errrr")
       }
-
     })
-
+      
+    
   }
 
   return (
@@ -112,15 +115,21 @@ function CartPage(props) {
           </>
       }
 
-      {ShowTotal &&
-        <Paypal
-          total={Total}
-          onSuccess={transactionSuccess}
-        />
-      }
-      {ShowTotal &&
-          <button onClick={linePay}>line pay</button>
-      }
+      <div style={{float:"left", width: "33%", margin : "10px"}}>
+        {ShowTotal &&
+          <Paypal
+            total={Total}
+            onSuccess={transactionSuccess}
+          />
+        }
+        </div>
+        <div style={{float:"left", width: "33%"}}>
+        {ShowTotal &&
+            <button onClick={linePay} style={{border:0, float:"left", cursor: "pointer"}} >
+              <img src="https://firebasestorage.googleapis.com/v0/b/babashop-801b2.appspot.com/o/linePay%2FLINE-Pay(h)_W238_n.png?alt=media&token=db350e15-9f32-4a5b-9adf-30c22f6d8e30"></img>
+            </button>
+        }
+        </div>
 
     </div>
   )

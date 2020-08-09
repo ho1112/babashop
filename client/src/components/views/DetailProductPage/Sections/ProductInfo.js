@@ -35,7 +35,7 @@ function ProductInfo(props) {
             }
         })
 
-        //dispatch(addToCart(props.detail._id, parseInt(Count)))
+        dispatch(addToCart(props.detail._id, parseInt(Count)))
     }
 
     const countHandler = (event) => {

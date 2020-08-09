@@ -2,15 +2,12 @@ const express = require('express');
 const router = express.Router();
 const multer = require('multer');
 const { Product } = require('../models/Product')
-const  {  v4 : uuid  }  =  require ( 'uuid' ) ;
+
 
 const { bucket } = require('../config/firebaseConfig')
 let async = require('async');
 
-const line = require("line-pay-sdk");
-const dotenv = require("dotenv");
 
-dotenv.config();
 
 //=================================
 //             Product
@@ -99,13 +96,6 @@ router.post('/review', (req, res) => {
             rate:req.body.rate,
             like:req.body.like
           }
-          /*
-                "review.$.id" : req.body.writer, 
-                "review.$.review" : req.body.review,
-                "review.$.date" : Date.now(),
-                "review.$.rate" : req.body.rate,
-                "review.$.like" : req.body.like
-                */
         }
     },
     { upsert: true, new: true },
@@ -215,6 +205,7 @@ router.get('/products_by_id', (req, res) => {
       })
 })
 
+/*
 //line pay
 const client = new line.Client({
   channelId: process.env.LINE_PAY_CHANNEL_ID,
@@ -223,12 +214,18 @@ const client = new line.Client({
 
 router.post('/linePay/reserve', (req, res) => {
   console.log("linepay reserve")
+  let amount=0;
+  req.body.cartDetail.forEach((item) => {
+      amount = amount + (item.price * item.quantity)
+  })
+
+
   const options = {
-    productName: "test",
-    amount: 1,
+    productName: req.body.cartDetail.length > 1? req.body.cartDetail[0].title+"外 "+req.body.cartDetail.length-1+"点" : req.body.cartDetail[0].title,
+    amount: amount,
     currency: "JPY",
     orderId: uuid(),
-    confirmUrl: `http://localhost:3000/linePayConfirm`
+    confirmUrl: `http://localhost:3000/api/users/linePay/confirm`
     //confirmUrl: `/api/product/linePay/confirm`
   };
 
@@ -236,6 +233,7 @@ router.post('/linePay/reserve', (req, res) => {
     console.log("Reservation was made!");
     console.log("Response: ", response);
     console.log(response.info.paymentUrl.web)
+    lineCache.set("lineCartDetail", req.body.cartDetail)
 
     if(response.returnMessage !== 'Success.') return res.status(400).json({ success:false})
     res.status(200).json( {success: true, response })
@@ -247,8 +245,11 @@ router.post('/linePay/reserve', (req, res) => {
 
 // Router configuration to recieve notification when user approves payment.
 //결제성공
-router.post("/linePay/confirm", (req, res) => {
+router.get("/linePay/confirm", (req, res) => {
   console.log("걸제성공 confirm")
+  const value = lineCache.get("lineCartDetail")
+  console.log(value)
+
   if (!req.query.transactionId){
     throw new Error("Transaction Id not found.");
   }
@@ -266,5 +267,5 @@ router.post("/linePay/confirm", (req, res) => {
     res.send("Payment has been completed.");
   });
 });
-
+*/
 module.exports = router;
