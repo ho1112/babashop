@@ -67,7 +67,7 @@ function ProductUserQnAModal(props) {
                 </span>
             </div>
             <div>
-                <Checkbox onChange={checkedHandler}>비공개</Checkbox>
+                <Checkbox onChange={checkedHandler}>非公開</Checkbox>
             </div>
             {inputCheck == true?
                 <div style={{color:'red'}}>*内容を入力してください。</div>
@@ -75,7 +75,7 @@ function ProductUserQnAModal(props) {
                 <div>　</div>
             }
             <div className="popup_btn">
-                <button className="btn_submit" onClick={submitHandler}>투고</button>
+                <button className="btn_submit" onClick={submitHandler}>登録</button>
                 <button className="btn_close" onClick={props.cancel}></button>
             </div>
             </div>

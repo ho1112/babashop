@@ -163,6 +163,7 @@ router.post('/products', (req, res) => {
       .populate("writer") //.populate()로 writer(상품을 업로드한 ID)와 관련된 모든 정보를 가져온다
       .skip(skip) //몇번부터 가져올 것인지 skip~ limit만큼
       .limit(limit) //가져올 갯수
+      .sort({"updatedAt":-1 }) //최신순   1:old -1:new
       .exec((err, productInfo) => {
         if(err) return res.status(400).json( {success: false, err} )
         return res.status(200).json( {
@@ -175,6 +176,7 @@ router.post('/products', (req, res) => {
       .populate("writer") //.populate()로 writer(상품을 업로드한 ID)와 관련된 모든 정보를 가져온다
       .skip(skip) //몇번부터 가져올 것인지 skip~ limit만큼
       .limit(limit) //가져올 갯수
+      .sort({"updatedAt":-1 }) //최신순   1:old -1:new
       .exec((err, productInfo) => {
         if(err) return res.status(400).json( {success: false, err} )
         return res.status(200).json( {

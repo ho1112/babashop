@@ -52,13 +52,13 @@
 }
 
 .MdLYR01Box.mdLYR01Cashback .MdBtnClose01 {
-    background: url(https://previews.123rf.com/images/asmati/asmati1706/asmati170606477/80933641-letter-x-sign-design-template-element-vector-white-icon-with-soft-shadow-on-transparent-background-.jpg)no-repeat;
+    /*background: url(https://previews.123rf.com/images/asmati/asmati1706/asmati170606477/80933641-letter-x-sign-design-template-element-vector-white-icon-with-soft-shadow-on-transparent-background-.jpg)no-repeat;
     width: 30px;
     height: 30px;
 display: inline-block;
 overflow: hidden;
 text-indent: -9999px;
-
+*/
 }
 
 .MdLYR01Box.mdLYR01Cashback .MdLYR18Cashback.mdLYR18TypeImg {
@@ -91,7 +91,7 @@ margin: 0;
     width: 290px;
     height: 222px;
     margin: 0 auto;
-    background: url(https://img1.daumcdn.net/thumb/R1280x0.fjpg/?fname=http://t1.daumcdn.net/brunch/service/user/7mo5/image/hnrF2AUkNdFW_yGAA76a8oLKlU8.jpg)50% 0 no-repeat;
+    background: url(https://cdn.pixabay.com/photo/2017/08/07/12/49/people-2603521_960_720.jpg)50% 0 no-repeat;
     background-size: 290px 222px;
 right: 50%;
 transform: translateX(50%);

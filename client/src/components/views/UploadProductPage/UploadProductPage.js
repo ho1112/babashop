@@ -11,13 +11,13 @@ import Axios from 'axios';
 const { TextArea } = Input;
 //select box Item
 const Continents = [
-  {key: 1, value: "Afica" },
-  {key: 2, value: "Europe" },
-  {key: 3, value: "Asia" },
-  {key: 4, value: "North America" },
-  {key: 5, value: "South America" },
-  {key: 6, value: "Australia" },
-  {key: 7, value: "Antarctica" }
+  {key: 1, value: "アウター" },
+  {key: 2, value: "トップス" },
+  {key: 3, value: "ボトムス" },
+  {key: 4, value: "シューズ" },
+  {key: 5, value: "バッグ" },
+  {key: 6, value: "アクセサリー" },
+  {key: 7, value: "香水" }
 ];
 
 function UploadProductPage(props) {
@@ -63,11 +63,10 @@ function UploadProductPage(props) {
       description: Description,
       price: Price,
       stock: Stock,
-      continent : Continent,
+      continents : Continent,
       images: Images
     }
-    console.log("uploadPage : "+Images[0].size  )
-
+    console.log("uploadPage : "+Images[0].size + " Continent : "+Continent  )
     Axios.post("/api/product", body)
         .then(response => {
           if(response.data.success) {
@@ -84,7 +83,7 @@ function UploadProductPage(props) {
   return (
     <div style={{ maxWidth: '700px', margin: '2rem auto' }}>
       <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
-        <h2 level={2}>여행 상품 업로드</h2>
+        <h2 level={2}>商品アップロード</h2>
       </div>
 
       <Form onSubmit= {submitHandler}>
@@ -92,19 +91,19 @@ function UploadProductPage(props) {
         <FileUpload refreshFunction = {updateImages} />
         <br />
         <br />
-        <label>이름</label>
+        <label>名称</label>
         <Input onChange={ titleChangeHandler } value={Title} />
         <br />
         <br />
-        <label>설명</label>
+        <label>説明</label>
         <TextArea onChange={ descriptionChangeHandler } value={Description}/>
         <br />
         <br />
-        <label>가격</label>
+        <label>値段</label>
         <Input onChange={ priceChangeHandler } value={Price}/>
         <br />
         <br />
-        <label>재고</label>
+        <label>在庫</label>
         <br />
         <InputNumber min={1} max={10000} defaultValue={Stock} onChange={stockChangeHandler} value={Stock}/>
         <br />
@@ -117,7 +116,7 @@ function UploadProductPage(props) {
         <br />
         <br />
         <Button onClick={submitHandler}> 
-            확인
+            Submit
         </Button>
 
       </Form>  

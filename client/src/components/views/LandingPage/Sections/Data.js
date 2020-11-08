@@ -1,31 +1,31 @@
 const continents = [ //checkBox item
     {
         "_id" : 1,
-        "name" : "Africa"
+        "name" : "アウター"
     },
     {
         "_id" : 2,
-        "name" : "Europe"
+        "name" : "トップス"
     },
     {
         "_id" : 3,
-        "name" : "Asia"
+        "name" : "ボトムス"
     },
     {
         "_id" : 4,
-        "name" : "North America"
+        "name" : "シューズ"
     },
     {
         "_id" : 5,
-        "name" : "South America"
+        "name" : "バッグ"
     },
     {
         "_id" : 6,
-        "name" : "Australia"
+        "name" : "アクセサリー"
     },
     {
         "_id" : 7,
-        "name" : "Antarctica"
+        "name" : "香水"
     }
 ]
 
@@ -37,28 +37,28 @@ const price = [ //price item
     },
     {
         "_id" : 1,
-        "name" : "$0 to $199",
-        "array" : [0, 199]
+        "name" : "¥0 to ¥5000",
+        "array" : [0, 5000]
     },
     {
         "_id" : 2,
-        "name" : "$200 to 249",
-        "array" : [200,249]
+        "name" : "¥5001 to 8000",
+        "array" : [5001,8000]
     },
     {
         "_id" : 3,
-        "name" : "$250 to 279",
-        "array" : [250,279]
+        "name" : "¥8001 to 10000",
+        "array" : [8001,10000]
     },
     {
         "_id" : 4,
-        "name" : "$280 to 299",
-        "array" : [280,299]
+        "name" : "¥10000 to 20000",
+        "array" : [10000,20000]
     },
     {
         "_id" : 5,
-        "name" : "More than $300",
-        "array" : [300,1500000]
+        "name" : "More than ¥20000",
+        "array" : [20000,150000000]
     }
 ]
 

@@ -64,13 +64,17 @@ function LandingPage() {
     // 상품목록 ant design - Carousel로 이미지 슬라이더 구현
     const renderCards = Products.map((product, index) =>{
         return <Col lg={6} md={8} xs={24} key={index}>
-            <Card
-                cover={<a href={`/product/${product._id}`} ><span style={{ textAlign: 'center', zIndex: '10', position: 'absolute',left: '0', width: '62px', backgroundColor: '#f5222d', color: '#fff', fontWeight: '600', fontSize: '10px', fontFamily: 'Volte' }}   class="product_icon">あとわずか</span>
-                <ImageSlider images={product.images} /></a>}
-            >
+                <Card
+                    cover={<a href={`/product/${product._id}`} >
+                        {product.stock < 10 ?
+                        <span style={{ textAlign: 'center', zIndex: '10', position: 'absolute',left: '0', width: '62px', backgroundColor: '#f5222d', color: '#fff', fontWeight: '600', fontSize: '10px', fontFamily: 'Volte' }}   class="product_icon">あとわずか</span>
+                        : <span></span>
+                    }
+                    <ImageSlider images={product.images} /></a>}
+                >
                 <Meta
                     title={product.title}
-                    description={`$${product.price}`}
+                    description={`￥${product.price}`}
                 />
             </Card>
         </Col>
@@ -153,7 +157,7 @@ function LandingPage() {
         
             {PostSize >= Limit && /* 가져온 상품 갯수가 limit보다 크거나 같으면 더보기 버튼 표시 */
                 <div style={{ display:'flex', justifyContent: 'center'}}>
-                    <button onClick={loadMoreHandler}>더보기</button>
+                    <button onClick={loadMoreHandler}>More</button>
                 </div>
             }
 

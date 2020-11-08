@@ -88,9 +88,9 @@ function CartPage(props) {
         console.log("errrr")
       }
     })
-      
-    
   }
+
+
 
   return (
     <div style={{ width: '85%', margin: '3rem auto' }}>
@@ -129,6 +129,13 @@ function CartPage(props) {
               <img src="https://firebasestorage.googleapis.com/v0/b/babashop-801b2.appspot.com/o/linePay%2FLINE-Pay(h)_W238_n.png?alt=media&token=db350e15-9f32-4a5b-9adf-30c22f6d8e30"></img>
             </button>
         }
+        </div>
+        <div>
+          <span>
+          sandBoxモードなので実際お支払いは行いません。<br />
+          Paypalテストアカウント : <br />sb-pugl53685384@personal.example.com <br />
+          password : test2020
+          </span>
         </div>
 
     </div>

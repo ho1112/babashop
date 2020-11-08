@@ -104,7 +104,7 @@ function ProductQnA(props) {
     <div style={{marginLeft: '10%', marginRight: '10%'}}>
     <h1>商品Q&A {qnaList.length}</h1>
     <br />
-    <button onClick={inputQna}>질문투고</button>
+    <button onClick={inputQna}>質問登録</button>
     <br />
     <hr />
     <div>
@@ -115,7 +115,7 @@ function ProductQnA(props) {
                   <p>{item.writer}</p>
                 </div>
                     {item.public === "private" ?
-                    <p>"비밀글 입니다.</p>
+                    <p>"秘密Q&Aです。"</p>
                     :
                     <pre>{item.qna}</pre>
                     }

@@ -77,7 +77,7 @@ function ProductReview(props) {
         <br />
         {/* <button>오스스메순</button>
         <button>신착순</button> */}
-        <button onClick={inputReview}>리뷰등록</button>
+        <button onClick={inputReview}>レビュー登録</button>
         <br />
         <hr />
 
