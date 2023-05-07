@@ -27,7 +27,7 @@
     "express": "^4.17.1",
     "firebase": "^7.16.0",
     "firebase-admin": "^8.13.0",
-    "jsonwebtoken": "^8.5.1",
+    "jsonwebtoken": "^9.0.0",
     "line-pay-sdk": "^1.0.3",
     "moment": "^2.29.4",
     "mongoose": "^5.4.20",
